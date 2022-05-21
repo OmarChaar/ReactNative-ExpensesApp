@@ -1,18 +1,26 @@
 
 import { StyleSheet, Text, View } from 'react-native';
 import { useLayoutEffect } from 'react'
-import { Ionicons } from '@expo/vector-icons'; 
+import IconButton from '../../components/ui/IconButton';
 
 
 function RecentExpenses({navigation}) {
 
+    function addExpensesNavigation() {
+        navigation.navigate("Edit");
+    }
+
     useLayoutEffect(() => {
         navigation.setOptions({
             title: 'Recent Expenses',
-            headerRight: ({color, size}) => <Ionicons name="add" size={size} color={color} />
+            headerRight: (color) => {
+                return (
+                    <IconButton size={24} color={color} onPress={addExpensesNavigation}/>
+                )
+            }
 
         })
-    }, [navigation]);
+    }, [navigation, addExpensesNavigation]);
 
     return (
         <View style={styles.container}>
@@ -26,7 +34,6 @@ export default RecentExpenses;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
     },

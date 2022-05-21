@@ -7,6 +7,7 @@ function EditExpenses({navigation}) {
     useLayoutEffect(() => {
         navigation.setOptions({
             title: 'Edit Expenses',
+            headerTitleAlign: 'center',
         })
     }, [navigation]);
 
@@ -22,7 +23,6 @@ export default EditExpenses;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
     },
