@@ -1,6 +1,7 @@
 
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { GlobalStyles } from '../../contants/styles';
+import { getFormattedDate } from '../../util/date';
 
 function ExpenseItem({description, amount, date }) {
 
@@ -9,10 +10,10 @@ function ExpenseItem({description, amount, date }) {
             <View style={styles.container}>
                 <View >
                     <Text style={[styles.textBase, styles.description]}>{description}</Text>
-                    <Text style={[styles.textBase, styles.date]}>{date.toString()}</Text>
+                    <Text style={[styles.textBase, styles.date]}>{getFormattedDate(date)}</Text>
                 </View>          
                 <View style={styles.amountContainer}>
-                    <Text style={styles.amount}>{amount}</Text>
+                    <Text style={styles.amount}>{amount.toFixed(2)}</Text>
                 </View>         
 
             </View>
@@ -30,8 +31,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 8,
+        padding: 12,
         elevation: 3,
         shadowColor: GlobalStyles.colors.gray500,
         shadowRadius: 4,
@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
         backgroundColor: GlobalStyles.colors.white,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 4
+        borderRadius: 4,
+        minWidth: 80
     },
     amount: {
         color: GlobalStyles.colors.primary500,
