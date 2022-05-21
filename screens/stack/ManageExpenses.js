@@ -2,23 +2,23 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { useLayoutEffect } from 'react'
 
-function EditExpenses({navigation}) {
+function ManageExpenses({navigation}) {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: 'Edit Expenses',
+            title: 'Manage Expenses',
             headerTitleAlign: 'center',
         })
     }, [navigation]);
 
     return (
         <View style={styles.container}>
-            <Text>EDIT EXPENSES!</Text>
+            <Text>MANAGE EXPENSES!</Text>
         </View>
     )
 }
 
-export default EditExpenses;
+export default ManageExpenses;
 
 const styles = StyleSheet.create({
     container: {

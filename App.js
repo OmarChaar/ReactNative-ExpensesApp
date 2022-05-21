@@ -6,35 +6,42 @@ import { Ionicons } from '@expo/vector-icons';
 
 import RecentExpenses from './screens/bottom-bar/RecentExpenses';
 import AllExpenses from './screens/bottom-bar/AllExpenses';
-import EditExpenses from './screens/stack/EditExpenses';
-import Colors from './contants/styles';
+import ManageExpenses from './screens/stack/ManageExpenses';
+import { GlobalStyles } from './contants/styles';
 
 
 const BottomTab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
- function RecentExpensesStackNavigator() {
+ function BottomTabNavigation() {
   return (
-    <Stack.Navigator
+    <BottomTab.Navigator 
       screenOptions={{
-        headerStyle: {backgroundColor: Colors.primary500},
-        headerBackTitle: '',
-        headerTintColor: Colors.white,
+        headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+        headerTintColor: GlobalStyles.colors.white,
+        tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+        tabBarActiveTintColor: GlobalStyles.colors.accent500,
+        tabBarLabelStyle: { fontSize: 12, paddingVertical: 5 }
       }}
     >
-      <Stack.Screen 
-        name='Recent' 
-        component={RecentExpenses}
+      <BottomTab.Screen 
+        name="RecentTab" 
+        component={RecentExpenses} 
         options={{
-          title: 'Recent Expenses',
-          headerTitleAlign: 'left',
+          headerTitleAlign: 'center',
+          tabBarIcon: ({size, color}) => <Ionicons name="hourglass-outline" size={size} color={color} />,
         }}
       />
-      <Stack.Screen 
-        name='Edit' 
-        component={EditExpenses}
+      <BottomTab.Screen 
+        name="AllExpenses" 
+        component={AllExpenses} 
+        options={{
+          title: "All Expenses",
+          headerTitleAlign: 'center',
+          tabBarIcon: ({size, color}) => <Ionicons name="calendar-outline" size={size} color={color} />
+        }}
       />
-    </Stack.Navigator>
+    </BottomTab.Navigator>
   )
  }
 
@@ -45,34 +52,32 @@ export default function App() {
       <StatusBar style='dark'></StatusBar>
 
       <NavigationContainer>
-        <BottomTab.Navigator 
+        <Stack.Navigator
           screenOptions={{
-            tabBarActiveBackgroundColor: Colors.primary500,
-            tabBarActiveTintColor: Colors.white,
-            tabBarInactiveBackgroundColor: Colors.secondary500,
-            headerStyle: {backgroundColor: Colors.primary500},
-            headerTintColor: Colors.white,
-            tabBarLabelStyle: {fontSize: 12, paddingVertical: 5}
+            headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+            headerBackTitle: '',
+            headerTintColor: GlobalStyles.colors.white,
           }}
         >
-          <BottomTab.Screen 
-            name="RecentTab" 
-            component={RecentExpensesStackNavigator} 
+          <Stack.Screen 
+            name='Overview' 
+            component={BottomTabNavigation}
             options={{
-              tabBarIcon: ({size, color}) => <Ionicons name="hourglass-outline" size={size} color={color} />,
               headerShown: false
             }}
           />
-          <BottomTab.Screen 
-            name="AllExpenses" 
-            component={AllExpenses} 
+          <Stack.Screen 
+            name='Manage' 
+            component={ManageExpenses}
             options={{
-              title: "All Expenses",
-              headerTitleAlign: 'center',
-              tabBarIcon: ({size, color}) => <Ionicons name="calendar-outline" size={size} color={color} />
+              title: 'Recent Expenses',
+              headerTitleAlign: 'left',
             }}
           />
-        </BottomTab.Navigator>
+         
+        </Stack.Navigator>
+
+       
       </NavigationContainer>
     </>
   );

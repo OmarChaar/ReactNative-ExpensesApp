@@ -2,12 +2,13 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { useLayoutEffect } from 'react'
 import IconButton from '../../components/ui/IconButton';
+import ExpensesOutput from '../../components/expenses/ExpensesOutput';
 
 
 function RecentExpenses({navigation}) {
 
     function addExpensesNavigation() {
-        navigation.navigate("Edit");
+        navigation.navigate("Manage");
     }
 
     useLayoutEffect(() => {
@@ -23,9 +24,7 @@ function RecentExpenses({navigation}) {
     }, [navigation, addExpensesNavigation]);
 
     return (
-        <View style={styles.container}>
-            <Text>RECENT EXPENSES!</Text>
-        </View>
+        <ExpensesOutput expensesPeriod="Last 7 Days"/>
     )
 }
 
@@ -37,4 +36,4 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
-  });
+});
