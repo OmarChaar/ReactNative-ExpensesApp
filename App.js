@@ -8,21 +8,27 @@ import RecentExpenses from './screens/bottom-bar/RecentExpenses';
 import AllExpenses from './screens/bottom-bar/AllExpenses';
 import ManageExpenses from './screens/stack/ManageExpenses';
 import { GlobalStyles } from './contants/styles';
+import IconButton from './components/ui/IconButton';
 
 
 const BottomTab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
- function BottomTabNavigation() {
+function BottomTabNavigation() {
+
   return (
     <BottomTab.Navigator 
-      screenOptions={{
+    // 'navigation' is found as a param in any Navigator.
+      screenOptions={({navigation}) => ({
         headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         headerTintColor: GlobalStyles.colors.white,
         tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         tabBarActiveTintColor: GlobalStyles.colors.accent500,
-        tabBarLabelStyle: { fontSize: 12, paddingVertical: 5 }
-      }}
+        tabBarLabelStyle: { fontSize: 12, paddingVertical: 5 },
+        headerRight: ({tintColor}) => (
+          <IconButton name="add" size={24} color={tintColor} onPress={() =>  navigation.navigate("ManageExpense", {type: 'new'})}/>
+        )  
+      })}
     >
       <BottomTab.Screen 
         name="RecentTab" 
@@ -30,6 +36,7 @@ const Stack = createNativeStackNavigator();
         options={{
           headerTitleAlign: 'center',
           tabBarIcon: ({size, color}) => <Ionicons name="hourglass-outline" size={size} color={color} />,
+               
         }}
       />
       <BottomTab.Screen 
@@ -67,11 +74,11 @@ export default function App() {
             }}
           />
           <Stack.Screen 
-            name='Manage' 
+            name='ManageExpense' 
             component={ManageExpenses}
             options={{
-              title: 'Recent Expenses',
-              headerTitleAlign: 'left',
+              title: 'Manage Expenses',
+              headerTitleAlign: 'left'
             }}
           />
          

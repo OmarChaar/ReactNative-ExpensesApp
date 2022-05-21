@@ -1,12 +1,23 @@
 
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 import { GlobalStyles } from '../../contants/styles';
 import { getFormattedDate } from '../../util/date';
 
-function ExpenseItem({description, amount, date }) {
+function ExpenseItem({ id, description, amount, date }) {
 
+    // We use a hook because 'ExpenseItem' is not part of the navigation.
+    const navigation = useNavigation();
+
+    function expensePressHandler() {
+        navigation.navigate("ManageExpense", {
+            expenseID: id
+        });
+    }
+      
     return (    
-        <TouchableOpacity>
+        <TouchableOpacity onPress={expensePressHandler}>
             <View style={styles.container}>
                 <View >
                     <Text style={[styles.textBase, styles.description]}>{description}</Text>
