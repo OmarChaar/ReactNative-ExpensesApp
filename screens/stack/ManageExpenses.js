@@ -1,17 +1,20 @@
 
 import { StyleSheet, View } from 'react-native';
-import { useContext, useLayoutEffect } from 'react'
+import { useContext, useLayoutEffect, useState } from 'react'
 import IconButton from '../../components/ui/IconButton';
 import { GlobalStyles } from '../../contants/styles';
 import { ExpensesContext } from '../../store/expenses-context';
 import ExpenseForm from '../../components/ManageExpense/ExpenseForm';
 import { deleteExpense, storeExpense, updateExpense } from '../../util/http';
+import LoadingOverlay from '../../components/ui/LoadingOverlay';
 
 /*
     'navigation' & 'route' are automatically imported by React since ManageExpenses.js is
     declared as a Navigation object in App.js.
 */
 function ManageExpenses({navigation, route}) {
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const expensesCtx = useContext(ExpensesContext);
 
@@ -33,8 +36,10 @@ function ManageExpenses({navigation, route}) {
     }, [navigation, isEditing]);
 
     async function deleteExpenseHandler() {
+        setIsLoading(true);
         expensesCtx.deleteExpense(editExpenseID);
         await deleteExpense(editExpenseID);
+        setIsLoading(false);
         navigation.goBack();
     }
 
@@ -43,7 +48,7 @@ function ManageExpenses({navigation, route}) {
     }
 
     async function confirmHandler(data) {
-
+        setIsLoading(true);
         if(isEditing) {
             expensesCtx.updateExpense(editExpenseID, data);
             await updateExpense(editExpenseID, data);
@@ -53,7 +58,12 @@ function ManageExpenses({navigation, route}) {
             const id = await storeExpense(data);
             expensesCtx.addExpense({...data, id: id});
         }
+        setIsLoading(false);
         navigation.goBack();
+    }
+
+    if(isLoading) {
+        return <LoadingOverlay />
     }
 
     return (
