@@ -1,6 +1,7 @@
 
 import { StyleSheet } from 'react-native';
 import { useContext, useLayoutEffect, useState } from 'react'
+import ErrorOverlay from '../../components/ui/ErrorOverlay';
 
 import LoadingOverlay from '../../components/ui/LoadingOverlay';
 import ExpensesOutput from '../../components/ExpensesOutputs/ExpensesOutput';
@@ -11,15 +12,21 @@ import { fetchExpenses } from '../../util/http';
 function MonthlyExpenses({navigation}) {
 
     const [isFetching, setIsFetching] = useState(true);
+    const [error, setError] = useState();
 
     const expensesCtx = useContext(ExpensesContext); 
 
     useLayoutEffect(() => {
         async function getExpenses() {
             setIsFetching(true);
-            const expenses = await fetchExpenses();
+            try {
+                const expenses = await fetchExpenses();
+                expensesCtx.setExpenses(expenses);
+            }
+            catch(error) {
+                setError('Could not fetch expenses!');
+            }
             setIsFetching(false);
-            expensesCtx.setExpenses(expenses);
         }
 
         getExpenses();
@@ -35,6 +42,14 @@ function MonthlyExpenses({navigation}) {
 
         return expense.date > dateMonthAgo;
     });
+
+    /*************************************/
+    /**************** GUI ****************/
+    /*************************************/
+
+    if(error && !isFetching) {
+        return <ErrorOverlay message={error}/>
+    }
 
     if(isFetching) {
         return <LoadingOverlay />

@@ -7,6 +7,7 @@ import { ExpensesContext } from '../../store/expenses-context';
 import ExpenseForm from '../../components/ManageExpense/ExpenseForm';
 import { deleteExpense, storeExpense, updateExpense } from '../../util/http';
 import LoadingOverlay from '../../components/ui/LoadingOverlay';
+import ErrorOverlay from '../../components/ui/ErrorOverlay';
 
 /*
     'navigation' & 'route' are automatically imported by React since ManageExpenses.js is
@@ -15,6 +16,8 @@ import LoadingOverlay from '../../components/ui/LoadingOverlay';
 function ManageExpenses({navigation, route}) {
 
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
+
 
     const expensesCtx = useContext(ExpensesContext);
 
@@ -37,10 +40,15 @@ function ManageExpenses({navigation, route}) {
 
     async function deleteExpenseHandler() {
         setIsLoading(true);
-        expensesCtx.deleteExpense(editExpenseID);
-        await deleteExpense(editExpenseID);
-        setIsLoading(false);
-        navigation.goBack();
+        try {
+            await deleteExpense(editExpenseID);
+            expensesCtx.deleteExpense(editExpenseID);
+            navigation.goBack();
+        }
+        catch(error) {
+            setError('Could not delete expense!');
+            setIsLoading(false);
+        }
     }
 
     function cancelHandler() {
@@ -50,16 +58,41 @@ function ManageExpenses({navigation, route}) {
     async function confirmHandler(data) {
         setIsLoading(true);
         if(isEditing) {
-            expensesCtx.updateExpense(editExpenseID, data);
-            await updateExpense(editExpenseID, data);
+            try {
+                expensesCtx.updateExpense(editExpenseID, data);
+                await updateExpense(editExpenseID, data);
+                navigation.goBack();
+            }
+            catch(error) {
+                setError('Could not update expense!');
+                setIsLoading(false);
+            }
         }
         else {
             // Sending the automatically generated ID to the 'addExpense()' function.
-            const id = await storeExpense(data);
-            expensesCtx.addExpense({...data, id: id});
+            try {
+                const id = await storeExpense(data);
+                expensesCtx.addExpense({...data, id: id});
+                navigation.goBack();
+            }
+            catch(error) {
+                setError('Could not add expense!');
+                setIsLoading(false);
+            }
         }
-        setIsLoading(false);
-        navigation.goBack();
+
+    }
+
+    function errorHandler() {
+        setError(null);
+    }
+
+    /*************************************/
+    /**************** GUI ****************/
+    /*************************************/
+
+    if(error && !isLoading) {
+        return <ErrorOverlay message={error} onConfirm={errorHandler}/>
     }
 
     if(isLoading) {

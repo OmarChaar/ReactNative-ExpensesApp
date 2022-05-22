@@ -1,6 +1,7 @@
 
 import { useContext, useLayoutEffect, useState } from 'react'
 import ExpensesOutput from '../../components/ExpensesOutputs/ExpensesOutput';
+import ErrorOverlay from '../../components/ui/ErrorOverlay';
 import LoadingOverlay from '../../components/ui/LoadingOverlay';
 import { ExpensesContext } from '../../store/expenses-context';
 import { getDateMinusDays } from '../../util/date';
@@ -9,15 +10,23 @@ import { fetchExpenses } from '../../util/http';
 function RecentExpenses({navigation}) {
 
     const [isFetching, setIsFetching] = useState(true);
+    const [error, setError] = useState();
 
     const expensesCtx = useContext(ExpensesContext); 
     
     useLayoutEffect(() => {
         async function getExpenses() {
             setIsFetching(true);
-            const expenses = await fetchExpenses();
+            // Using try/catch to handle any errors in http requests.
+            try {
+                const expenses = await fetchExpenses();
+                expensesCtx.setExpenses(expenses);
+            }
+            catch(error) {
+                setError('Could not fetch expenses!');
+            }
+        
             setIsFetching(false);
-            expensesCtx.setExpenses(expenses);
         }
 
         getExpenses();
@@ -33,6 +42,18 @@ function RecentExpenses({navigation}) {
 
         return expense.date > date7DaysAgo;
     });
+
+    function errorHandler() {
+        setError(null);
+    }
+
+    /*************************************/
+    /**************** GUI ****************/
+    /*************************************/
+
+    if(error && !isFetching) {
+        return <ErrorOverlay message={error}/>
+    }
 
     if(isFetching) {
         return <LoadingOverlay />

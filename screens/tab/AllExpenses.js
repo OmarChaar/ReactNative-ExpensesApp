@@ -1,6 +1,7 @@
 
 import { useContext, useState, useLayoutEffect } from 'react';
 
+import ErrorOverlay from '../../components/ui/ErrorOverlay';
 import LoadingOverlay from '../../components/ui/LoadingOverlay';
 import { sortByLatest, sortByOldest } from '../../util/sorting';
 import ExpensesOutput from '../../components/ExpensesOutputs/ExpensesOutput';
@@ -10,6 +11,8 @@ import { fetchExpenses } from '../../util/http';
 function AllExpenses() {
   
   const [isFetching, setIsFetching] = useState(true);
+  const [error, setError] = useState();
+
 
   /*
     To use the context app-wide, we must provide it using 'useContext()' hook.
@@ -19,10 +22,16 @@ function AllExpenses() {
   useLayoutEffect(() => {
     async function getExpenses() {
       setIsFetching(true);
-      const expenses = await fetchExpenses();
+      try {
+        const expenses = await fetchExpenses();
+        expensesCtx.setExpenses(expenses);
+        setAllExpenses(expensesCtx.expenses);
+      }
+      catch(error) {
+        setError('Could not fetch expenses!');
+      }
+
       setIsFetching(false);
-      expensesCtx.setExpenses(expenses);
-      setAllExpenses(expensesCtx.expenses);
     }
 
     getExpenses();
@@ -41,6 +50,14 @@ function AllExpenses() {
       setAllExpenses(sortByLatest(expensesCtx.expenses));
       setSortingUp(true);
     }
+  }
+
+  /*************************************/
+  /**************** GUI ****************/
+  /*************************************/
+
+  if(error && !isFetching) {
+    return <ErrorOverlay message={error}/>
   }
 
   if(isFetching) {
