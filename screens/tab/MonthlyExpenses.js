@@ -9,6 +9,12 @@ import { sortByLatest } from '../../util/sorting';
 function MonthlyExpenses({navigation}) {
 
     const expensesCtx = useContext(ExpensesContext); 
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: 'Month',
+        })
+    }, [navigation]);
     
     const recentExpenses = expensesCtx.expenses.filter((expense) => {
         const today = new Date();
@@ -19,11 +25,7 @@ function MonthlyExpenses({navigation}) {
 
     const [displayed, setDisplayed] = useState(sortByLatest(recentExpenses));
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            title: 'Month',
-        })
-    }, [navigation]);
+   
 
     return (
         <ExpensesOutput expenses={displayed} expensesPeriod="Last Month" fallbackText="No expenses registered for the past month."/>

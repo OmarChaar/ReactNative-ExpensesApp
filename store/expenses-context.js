@@ -1,4 +1,5 @@
 import { createContext, useReducer  } from "react";
+import { sortByLatest } from "../util/sorting";
 
 const DUMMY_EXPENSES = [
     {
@@ -45,6 +46,8 @@ const DUMMY_EXPENSES = [
     },
 ];
 
+
+
 /* 
     Creating a context to be used throughout the app.
     Defining the shape of the context
@@ -52,6 +55,7 @@ const DUMMY_EXPENSES = [
 export const ExpensesContext = createContext({
     expenses: [],
     // Functions with params that are expected as arguments.
+    setExpenses: (expenses) => {},
     addExpense: ({description, amount, date}) => {},
     deleteExpense: (id) => {},
     updateExpense: (id, {description, amount, date}) => {},
@@ -65,11 +69,14 @@ export const ExpensesContext = createContext({
     'action' -> dispached by us.
 */
 function expensesReducer(state, action) {
-    if(action.type == 'ADD') {
-        const id = new Date().toString() + Math.random().toString();
-        return [{...action.payload, id: id}, ...state];
+    if(action.type == 'SET') {
+        const sortedExpenses = sortByLatest(action.payload);
+        return sortedExpenses;
     }
-    if(action.type == 'UPDATE') {
+    else if(action.type == 'ADD') {
+        return [action.payload, ...state];
+    }
+    else if(action.type == 'UPDATE') {
         const updatableExpenseIndex = state.findIndex((expense) => expense.id === action.payload.id);
         const updatableExpense = state[updatableExpenseIndex];
 
@@ -80,7 +87,7 @@ function expensesReducer(state, action) {
 
         return updatedExpenses;
     }
-    if(action.type == 'DELETE') {
+    else if(action.type == 'DELETE') {
        return state.filter(expense => expense.id !== action.payload) 
     }
     else {
@@ -107,7 +114,14 @@ function ExpensesContextProvider({children}) {
         1st element -> state that will be managed by the reducer.
         2nd element -> dispatch function to execute new functions that manipulate the state.
     */
-    const [expensesState, dispatch] = useReducer(expensesReducer, DUMMY_EXPENSES);
+    const [expensesState, dispatch] = useReducer(expensesReducer, []);
+
+    /*
+        We added the 'setExpenses()' function to retrieve expenses from Firebase.
+    */
+    function setExpenses(expenses) {
+        dispatch({type: 'SET', payload: expenses});
+    }
 
     // How to use 'dispatch'
     function addExpense(expenseData) {
@@ -131,6 +145,7 @@ function ExpensesContextProvider({children}) {
     // These values will expect the same parameters as declated in the 'creatContext()' method.
     const value = {
         expenses: expensesState,
+        setExpenses: setExpenses,
         addExpense: addExpense,
         deleteExpense: deleteExpense,
         updateExpense: updateExpense

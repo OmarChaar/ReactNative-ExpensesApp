@@ -5,28 +5,34 @@ import ExpensesOutput from '../../components/ExpensesOutputs/ExpensesOutput';
 import { ExpensesContext } from '../../store/expenses-context';
 import { getDateMinusDays } from '../../util/date';
 import { sortByLatest } from '../../util/sorting';
+import { fetchExpenses } from '../../util/http';
 
 function RecentExpenses({navigation}) {
 
     const expensesCtx = useContext(ExpensesContext); 
     
-    let recentExpenses = expensesCtx.expenses.filter((expense) => {
+    useLayoutEffect(() => {
+        async function getExpenses() {
+            const expenses = await fetchExpenses();
+            expensesCtx.setExpenses(expenses);
+        }
+
+        getExpenses();
+        
+        navigation.setOptions({
+            title: 'Week',
+        })
+    }, [navigation]);
+
+    const recentExpenses = expensesCtx.expenses.filter((expense) => {
         const today = new Date();
         const date7DaysAgo = getDateMinusDays(today, 7);
 
         return expense.date > date7DaysAgo;
     })
 
-    const [displayed, setDisplayed] = useState(sortByLatest(recentExpenses));
-
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            title: 'Week',
-        })
-    }, [navigation]);
-
     return (
-        <ExpensesOutput expenses={displayed} expensesPeriod="Last 7 Days" fallbackText="No expenses registered for the past 7 days."/>
+        <ExpensesOutput expenses={recentExpenses} expensesPeriod="Last 7 Days" fallbackText="No expenses registered for the past 7 days."/>
     )
 }
 

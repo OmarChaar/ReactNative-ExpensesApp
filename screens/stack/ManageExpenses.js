@@ -3,11 +3,9 @@ import { StyleSheet, View } from 'react-native';
 import { useContext, useLayoutEffect } from 'react'
 import IconButton from '../../components/ui/IconButton';
 import { GlobalStyles } from '../../contants/styles';
-import Button from '../../components/ui/Button';
 import { ExpensesContext } from '../../store/expenses-context';
-import ManageExpense from '../../components/ExpensesOutputs/ManageExpense';
 import ExpenseForm from '../../components/ManageExpense/ExpenseForm';
-import { storeExpense } from '../../util/http';
+import { deleteExpense, storeExpense, updateExpense } from '../../util/http';
 
 /*
     'navigation' & 'route' are automatically imported by React since ManageExpenses.js is
@@ -34,8 +32,9 @@ function ManageExpenses({navigation, route}) {
         })
     }, [navigation, isEditing]);
 
-    function deleteExpenseHandler() {
+    async function deleteExpenseHandler() {
         expensesCtx.deleteExpense(editExpenseID);
+        await deleteExpense(editExpenseID);
         navigation.goBack();
     }
 
@@ -43,14 +42,16 @@ function ManageExpenses({navigation, route}) {
         navigation.goBack();
     }
 
-    function confirmHandler(data) {
+    async function confirmHandler(data) {
 
         if(isEditing) {
             expensesCtx.updateExpense(editExpenseID, data);
+            await updateExpense(editExpenseID, data);
         }
         else {
-            storeExpense(data);
-            expensesCtx.addExpense(data);
+            // Sending the automatically generated ID to the 'addExpense()' function.
+            const id = await storeExpense(data);
+            expensesCtx.addExpense({...data, id: id});
         }
         navigation.goBack();
     }
