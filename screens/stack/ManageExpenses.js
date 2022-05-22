@@ -7,6 +7,7 @@ import Button from '../../components/ui/Button';
 import { ExpensesContext } from '../../store/expenses-context';
 import ManageExpense from '../../components/ExpensesOutputs/ManageExpense';
 import ExpenseForm from '../../components/ManageExpense/ExpenseForm';
+import { storeExpense } from '../../util/http';
 
 /*
     'navigation' & 'route' are automatically imported by React since ManageExpenses.js is
@@ -48,6 +49,7 @@ function ManageExpenses({navigation, route}) {
             expensesCtx.updateExpense(editExpenseID, data);
         }
         else {
+            storeExpense(data);
             expensesCtx.addExpense(data);
         }
         navigation.goBack();
