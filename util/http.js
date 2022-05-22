@@ -3,7 +3,7 @@ import axios from 'axios';
 const ROOT_URL = 'https://expensestracker-f97ac-default-rtdb.firebaseio.com';
 
 /*
-    'axios' is a 3rd party api used to make http requests simpler.
+    'axios' is a 3rd party library used to make http requests simpler.
 */
 export async function storeExpense(data) {
     const response = await axios.post(ROOT_URL + '/expenses.json', data);
@@ -13,7 +13,8 @@ export async function storeExpense(data) {
 }
 
 /*
-    Instead of using .then() we will use 'async' await functions.
+    Instead of using .then() we will use 'async' await functions to wait for 
+    a response.
 */
 export async function fetchExpenses() {
     const response = await axios.get(ROOT_URL + '/expenses.json');

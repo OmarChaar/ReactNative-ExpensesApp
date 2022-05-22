@@ -1,53 +1,6 @@
 import { createContext, useReducer  } from "react";
 import { sortByLatest } from "../util/sorting";
 
-const DUMMY_EXPENSES = [
-    {
-        id: 'e1',
-        description: 'A pair of shoes',
-        amount: 59.99,
-        date: new Date('2021-12-19')
-    },
-    {
-        id: 'e2',
-        description: 'Cheese Stix',
-        amount: 89.29,
-        date: new Date('2021-11-05')
-    },
-    {
-        id: 'e3',
-        description: 'Some bananas',
-        amount: 5.99,
-        date: new Date('2022-05-01')
-    },
-    {
-        id: 'e4',
-        description: 'Laptop',
-        amount: 5.99,
-        date: new Date('2022-05-21')
-    },
-    {
-        id: 'e5',
-        description: 'Car',
-        amount: 5.99,
-        date: new Date('2022-05-17')
-    },
-    {
-        id: 'e6',
-        description: 'Lemons',
-        amount: 51.99,
-        date: new Date('2020-05-17')
-    },
-    {
-        id: 'e7',
-        description: 'Omar Chaar',
-        amount: 500.99,
-        date: new Date('1992-08-17')
-    },
-];
-
-
-
 /* 
     Creating a context to be used throughout the app.
     Defining the shape of the context
@@ -96,13 +49,12 @@ function expensesReducer(state, action) {
 }
 
 /* 
+    -------------------- HERE WE ADD STATE MANAGEMENT LOGIC --------------------
+    
     The provider function that holds the logic that will be used thoughtout the app.
     Add 'children' prop to wrap everything inside ExpensesContextProvider.
 */
 function ExpensesContextProvider({children}) {
-
-    // HERE WE ADD STATE MANAGEMENT LOGIC
-
     /*
         useReducer() -> a hook used for complex state management, it works with a reducer function
         that has to be defined as the first parameter of 'useReducer()'. Once it is defined we can 
