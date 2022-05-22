@@ -4,17 +4,20 @@ import { useContext, useLayoutEffect } from 'react'
 import ExpensesOutput from '../../components/ExpensesOutputs/ExpensesOutput';
 import { ExpensesContext } from '../../store/expenses-context';
 import { getDateMinusDays } from '../../util/date';
+import { sortByLatest } from '../../util/sorting';
 
 function RecentExpenses({navigation}) {
 
     const expensesCtx = useContext(ExpensesContext); 
     
-    const recentExpenses = expensesCtx.expenses.filter((expense) => {
+    let recentExpenses = expensesCtx.expenses.filter((expense) => {
         const today = new Date();
         const date7DaysAgo = getDateMinusDays(today, 7);
 
         return expense.date > date7DaysAgo;
     })
+
+    sortByLatest(recentExpenses);
 
     useLayoutEffect(() => {
         navigation.setOptions({

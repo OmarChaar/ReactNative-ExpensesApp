@@ -4,6 +4,7 @@ import { useContext, useLayoutEffect } from 'react'
 import ExpensesOutput from '../../components/ExpensesOutputs/ExpensesOutput';
 import { ExpensesContext } from '../../store/expenses-context';
 import { getDateMinusDays } from '../../util/date';
+import { sortByLatest } from '../../util/sorting';
 
 function MonthlyExpenses({navigation}) {
 
@@ -15,6 +16,8 @@ function MonthlyExpenses({navigation}) {
 
         return expense.date > dateMonthAgo;
     })
+
+    sortByLatest(recentExpenses);
 
     useLayoutEffect(() => {
         navigation.setOptions({

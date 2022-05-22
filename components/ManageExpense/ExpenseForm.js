@@ -42,7 +42,7 @@ function ExpenseForm({onCancel, onSubmit, isEditing, defaultValues}) {
     }
 
     function submitHandler() {
-        console.log("submitHandler", inputs.amount.value, inputs.date.value, inputs.description.value);
+
         const expenseData = {
             // '+' transforms a string into a number
             amount: +inputs.amount.value,
