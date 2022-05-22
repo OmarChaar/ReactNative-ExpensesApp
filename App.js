@@ -2,24 +2,47 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Ionicons } from '@expo/vector-icons'; 
 
-import RecentExpenses from './screens/bottom-bar/RecentExpenses';
-import AllExpenses from './screens/bottom-bar/AllExpenses';
+import RecentExpenses from './screens/tab/RecentExpenses';
+import AllExpenses from './screens/tab/AllExpenses';
 import ManageExpenses from './screens/stack/ManageExpenses';
 import { GlobalStyles } from './contants/styles';
 import IconButton from './components/ui/IconButton';
 import ExpensesContextProvider from './store/expenses-context';
+import MonthlyExpenses from './screens/tab/MonthlyExpenses';
+import YearlyExpenses from './screens/tab/YearlyExpenses';
 
 
 const BottomTab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+const TopTab = createMaterialTopTabNavigator();
+
+function TopTabNavigation() {
+  return (
+    <TopTab.Navigator>
+      <TopTab.Screen 
+        name="WeeklyTab"
+        component={RecentExpenses}
+      />
+      <TopTab.Screen 
+        name="MonthlyTab"
+        component={MonthlyExpenses}
+      />
+      <TopTab.Screen 
+        name="YealyTab"
+        component={YearlyExpenses}
+      />
+    </TopTab.Navigator>
+  )
+}
 
 function BottomTabNavigation() {
 
   return (
     <BottomTab.Navigator 
-    // 'navigation' is found as a param in any Navigator.
+      // 'navigation' is found as a param in any Navigator.
       screenOptions={({navigation}) => ({
         headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         headerTintColor: GlobalStyles.colors.white,
@@ -33,9 +56,10 @@ function BottomTabNavigation() {
     >
       <BottomTab.Screen 
         name="RecentTab" 
-        component={RecentExpenses} 
+        component={TopTabNavigation} 
         options={{
           headerTitleAlign: 'center',
+          title: 'Recent Expenses',
           tabBarIcon: ({size, color}) => <Ionicons name="hourglass-outline" size={size} color={color} />,
                
         }}
