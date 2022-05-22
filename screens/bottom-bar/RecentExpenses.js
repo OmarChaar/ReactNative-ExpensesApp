@@ -1,7 +1,7 @@
 
 import { StyleSheet, Text, View } from 'react-native';
 import { useContext, useLayoutEffect } from 'react'
-import ExpensesOutput from '../../components/expenses/ExpensesOutput';
+import ExpensesOutput from '../../components/ExpensesOutputs/ExpensesOutput';
 import { ExpensesContext } from '../../store/expenses-context';
 import { getDateMinusDays } from '../../util/date';
 

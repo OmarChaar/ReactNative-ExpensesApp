@@ -1,11 +1,17 @@
 
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, TextInput } from 'react-native';
 import { useContext, useLayoutEffect } from 'react'
 import IconButton from '../../components/ui/IconButton';
 import { GlobalStyles } from '../../contants/styles';
 import Button from '../../components/ui/Button';
 import { ExpensesContext } from '../../store/expenses-context';
+import ManageExpense from '../../components/ExpensesOutputs/ManageExpense';
+import ExpenseForm from '../../components/ManageExpense/ExpenseForm';
 
+/*
+    'navigation' & 'route' are automatically imported by React since ManageExpenses.js is
+    declared as a Navigation object in App.js.
+*/
 function ManageExpenses({navigation, route}) {
 
     const expensesCtx = useContext(ExpensesContext);
@@ -14,6 +20,10 @@ function ManageExpenses({navigation, route}) {
     const editExpenseID = route.params?.expenseID;
     const isEditing = !!editExpenseID;
 
+    /*
+        'useLayoutEffect()' is used to set dynamic details on navigation screen.
+        We must link the values used inside it at the end.
+    */
     useLayoutEffect(() => {
         navigation.setOptions({
             title: isEditing ? 'Edit Expenses' : 'Add Expenses',
@@ -42,6 +52,9 @@ function ManageExpenses({navigation, route}) {
 
     return (
         <View style={styles.container}>
+            {/* <ManageExpense /> */}
+            <ExpenseForm />
+
             <View style={styles.buttonContainer}>
                 <Button style={styles.button} mode="flat" onPress={cancelHandler}>Cancel</Button>
                 <Button style={styles.button} onPress={confirmHandler}>{isEditing ? 'Update' : 'Add'}</Button>
