@@ -20,6 +20,8 @@ function ManageExpenses({navigation, route}) {
     const editExpenseID = route.params?.expenseID;
     const isEditing = !!editExpenseID;
 
+    const selectedExpense = expensesCtx.expenses.find(expense => expense.id === editExpenseID);
+
     /*
         'useLayoutEffect()' is used to set dynamic details on navigation screen.
         We must link the values used inside it at the end.
@@ -40,12 +42,13 @@ function ManageExpenses({navigation, route}) {
         navigation.goBack();
     }
 
-    function confirmHandler() {
+    function confirmHandler(data) {
+
         if(isEditing) {
-            expensesCtx.updateExpense(editExpenseID, {description: 'OC', amount: 59.99, date: new Date('2022-05-20')});
+            expensesCtx.updateExpense(editExpenseID, data);
         }
         else {
-            expensesCtx.addExpense({description: 'Omar Chaar', amount: 19.99, date: new Date('2022-05-19')});
+            expensesCtx.addExpense(data);
         }
         navigation.goBack();
     }
@@ -53,12 +56,14 @@ function ManageExpenses({navigation, route}) {
     return (
         <View style={styles.container}>
             {/* <ManageExpense /> */}
-            <ExpenseForm />
+            <ExpenseForm 
+                isEditing={isEditing} 
+                onCancel={cancelHandler}
+                onSubmit={confirmHandler}
+                defaultValues={selectedExpense}
+            />
 
-            <View style={styles.buttonContainer}>
-                <Button style={styles.button} mode="flat" onPress={cancelHandler}>Cancel</Button>
-                <Button style={styles.button} onPress={confirmHandler}>{isEditing ? 'Update' : 'Add'}</Button>
-            </View>
+         
             {isEditing && (
                 <View style={styles.deleteContainer}>
                     <IconButton 
@@ -81,14 +86,7 @@ const styles = StyleSheet.create({
         padding: 24,
         backgroundColor: GlobalStyles.colors.primary800
     },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center'
-    },
-    button: {
-        minWidth: 120,
-        marginHorizontal: 8
-    },
+
     deleteContainer: {
         marginTop: 16,
         paddingTop: 8,

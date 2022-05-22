@@ -14,7 +14,4 @@ export const GlobalStyles = {
     gray700: '#221c30',
     white: '#ffffff'
   },
-  fontStyle: {
-    bold: {fontWeight: 'bold'},
-  }
 };
