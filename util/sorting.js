@@ -1,16 +1,14 @@
 
 export function sortByLatest(list) {
-    console.log("LIST", list);
-    const tempList = list;
-    tempList.sort((a, b) => {
-        return b.date - a.date;
-    });
-
-    return tempList;
+  const tempList = [...list];
+  return tempList.sort((a, b) => {
+    return b.date - a.date;
+  });
 }
 
 export function sortByOldest(list) {
-    return list.sort((a, b) => {
-        return a.date - b.date;
-    });
+  const tempList = [...list];
+  return tempList.sort((a, b) => {
+    return a.date - b.date;
+  });
 }

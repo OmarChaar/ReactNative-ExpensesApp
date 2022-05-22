@@ -12,13 +12,14 @@ function renderExpenseList(itemData) {
     )
 }
 
-function ExpensesList({expenses}) {
+function ExpensesList({expenses, period}) {
+
     return (
        <FlatList 
             data={expenses}
             keyExtractor={item => item.id}
             renderItem={renderExpenseList}
-            style={styles.flastListContainer}
+            style={(period !== 'Total') && styles.flastListContainer}
        />
     )
 }

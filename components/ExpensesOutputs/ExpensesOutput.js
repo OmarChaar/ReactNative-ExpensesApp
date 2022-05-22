@@ -2,17 +2,25 @@ import { StyleSheet, View, Text } from 'react-native';
 import { GlobalStyles } from '../../contants/styles';
 import ExpensesList from './ExpensesList';
 import ExpensesSummary from './ExpensesSummary';
+import SortingIconButton from '../ui/SortingIconButton';
 
-function ExpensesOutput({ expenses, expensesPeriod, fallbackText }) {
+function ExpensesOutput({ expenses, expensesPeriod, fallbackText, onPress, sorting }) {
 
     let content = <Text style={styles.infoText}>{fallbackText}</Text>
 
+    let sorter = (
+        <View style={styles.sorterContainer}>
+            <SortingIconButton name={sorting ? 'sort-descending' : 'sort-ascending'} size={24} color='red' onPress={onPress}/>
+        </View>
+    )
     if(expenses.length > 0) {
-        content =  <ExpensesList expenses={expenses}/>
+        content =  <ExpensesList expenses={expenses} period={expensesPeriod}/>
     }
+
     return (
         <View style={styles.container}>
             <ExpensesSummary expenses={expenses} period={expensesPeriod}/>
+            {expensesPeriod === 'Total' && sorter}
             {content}
         </View>
     )
@@ -33,5 +41,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center',
         marginTop: 32
+    },
+    sorterContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginTop: 12
     }
 });

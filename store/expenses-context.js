@@ -9,118 +9,28 @@ const DUMMY_EXPENSES = [
     },
     {
         id: 'e2',
-        description: 'A pair of pants',
+        description: 'Cheese Stix',
         amount: 89.29,
-        date: new Date('2022-01-05')
+        date: new Date('2021-11-05')
     },
     {
         id: 'e3',
         description: 'Some bananas',
         amount: 5.99,
-        date: new Date('2021-12-01')
-    },
-    {
-        id: 'e4',
-        description: 'Chicken Cheese',
-        amount: 14.99,
-        date: new Date('2022-05-19')
-    },
-    {
-        id: 'e5',
-        description: 'Another Book',
-        amount: 18.59,
-        date: new Date('2022-02-18')
-    },
-    {
-        id: 'e6',
-        description: 'A pair of shoes',
-        amount: 59.99,
-        date: new Date('2021-12-19')
-    },
-    {
-        id: 'e7',
-        description: 'A pair of pants',
-        amount: 89.29,
-        date: new Date('2022-01-05')
-    },
-    {
-        id: 'e8',
-        description: 'Some bananas',
-        amount: 5.99,
         date: new Date('2022-05-01')
     },
     {
-        id: 'e9',
-        description: 'Book',
-        amount: 14.99,
-        date: new Date('2022-02-15')
-    },
-    {
-        id: 'e10',
-        description: 'Another Book',
-        amount: 18.59,
-        date: new Date('2022-02-18')
-    },
-    {
-        id: 'e11',
-        description: 'A pair of shoes',
-        amount: 59.99,
-        date: new Date('2021-12-19')
-    },
-    {
-        id: 'e12',
-        description: 'A pair of pants',
-        amount: 89.29,
-        date: new Date('2022-01-05')
-    },
-    {
-        id: 'e13',
-        description: 'Some bananas',
+        id: 'e4',
+        description: 'Laptop',
         amount: 5.99,
-        date: new Date('2021-12-01')
+        date: new Date('2022-05-21')
     },
     {
-        id: 'e14',
-        description: 'Book',
-        amount: 14.99,
-        date: new Date('2022-02-15')
-    },
-    {
-        id: 'e15',
-        description: 'Another Book',
-        amount: 18.59,
-        date: new Date('2022-02-18')
-    },
-    {
-        id: 'e16',
-        description: 'A pair of shoes',
-        amount: 59.99,
-        date: new Date('2022-05-19')
-    },
-    {
-        id: 'e17',
-        description: 'A pair of pants',
-        amount: 89.29,
-        date: new Date('2022-01-05')
-    },
-    {
-        id: 'e18',
-        description: 'Some bananas',
+        id: 'e5',
+        description: 'Car',
         amount: 5.99,
-        date: new Date('2021-05-17')
+        date: new Date('2022-05-17')
     },
-    {
-        id: 'e19',
-        description: 'Book',
-        amount: 14.99,
-        date: new Date('2022-02-15')
-    },
-    {
-        id: 'e20',
-        description: 'Burgers',
-        amount: 18.59,
-        date: new Date('2022-05-18')
-    }
 ];
 
 /* 

@@ -1,6 +1,6 @@
 
 import { StyleSheet } from 'react-native';
-import { useContext, useLayoutEffect } from 'react'
+import { useContext, useLayoutEffect, useState } from 'react'
 import ExpensesOutput from '../../components/ExpensesOutputs/ExpensesOutput';
 import { ExpensesContext } from '../../store/expenses-context';
 import { getDateMinusDays } from '../../util/date';
@@ -17,7 +17,7 @@ function MonthlyExpenses({navigation}) {
         return expense.date > dateMonthAgo;
     })
 
-    sortByLatest(recentExpenses);
+    const [displayed, setDisplayed] = useState(sortByLatest(recentExpenses));
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -26,7 +26,7 @@ function MonthlyExpenses({navigation}) {
     }, [navigation]);
 
     return (
-        <ExpensesOutput expenses={recentExpenses} expensesPeriod="Last Month" fallbackText="No expenses registered for the past month."/>
+        <ExpensesOutput expenses={displayed} expensesPeriod="Last Month" fallbackText="No expenses registered for the past month."/>
     )
 }
 
