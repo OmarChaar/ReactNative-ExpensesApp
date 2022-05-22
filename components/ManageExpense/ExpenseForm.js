@@ -39,8 +39,6 @@ function ExpenseForm({onCancel, onSubmit, isEditing, defaultValues}) {
                 [inputIdentifier]: {value: entered, isValid: true}
             }
         });
-
-        console.log("inputs", inputs)
     }
 
     function submitHandler() {
@@ -82,8 +80,7 @@ function ExpenseForm({onCancel, onSubmit, isEditing, defaultValues}) {
     }
 
     const formIsInvalid = !inputs.amount.isValid || !inputs.date.isValid || !inputs.description.isValid;
-    console.log(inputs.amount.isValid , inputs.date.isValid , inputs.description.isValid )
-    console.log("formIsInvalid", formIsInvalid);
+
     return (
         <View style={styles.container}>
             <View style={styles.container}>

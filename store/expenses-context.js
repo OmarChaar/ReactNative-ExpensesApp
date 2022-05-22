@@ -199,7 +199,6 @@ function ExpensesContextProvider({children}) {
     }
 
     function deleteExpense(id) {
-        console.log("deleteExpense id", id);
         dispatch({type: 'DELETE', payload: id});
     }
 
