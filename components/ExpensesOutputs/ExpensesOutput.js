@@ -10,7 +10,7 @@ function ExpensesOutput({ expenses, expensesPeriod, fallbackText, onPress, sorti
 
     let sorter = (
         <View style={styles.sorterContainer}>
-            <SortingIconButton name={sorting ? 'sort-descending' : 'sort-ascending'} size={24} color='red' onPress={onPress}/>
+            <SortingIconButton name={sorting ? 'sort-descending' : 'sort-ascending'} size={24} color={GlobalStyles.colors.primary100} onPress={onPress}/>
         </View>
     )
     if(expenses.length > 0) {

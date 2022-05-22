@@ -31,6 +31,18 @@ const DUMMY_EXPENSES = [
         amount: 5.99,
         date: new Date('2022-05-17')
     },
+    {
+        id: 'e6',
+        description: 'Lemons',
+        amount: 51.99,
+        date: new Date('2020-05-17')
+    },
+    {
+        id: 'e7',
+        description: 'Omar Chaar',
+        amount: 500.99,
+        date: new Date('1992-08-17')
+    },
 ];
 
 /* 
