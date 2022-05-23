@@ -21,7 +21,6 @@ function RecentExpenses({navigation, route}) {
             try {
                 const expenses = await fetchExpenses();
                 expensesCtx.setExpenses(expenses);
-                // console.log("1-trying", expenses);
             }
             catch(error) {
                 setError('Could not fetch expenses!');
@@ -61,7 +60,7 @@ function RecentExpenses({navigation, route}) {
     }
 
     return (
-        <ExpensesOutput expenses={recentExpenses} expensesPeriod="Last 7 Days" fallbackText="No expenses registered for the past 7 days."/>
+        <ExpensesOutput expenses={recentExpenses} expensesPeriod="Last 7 Days" fallbackText="No expenses registered for the past 7 days."/>        
     )
 }
 

@@ -3,8 +3,9 @@ import { GlobalStyles } from '../../contants/styles';
 import ExpensesList from './ExpensesList';
 import ExpensesSummary from './ExpensesSummary';
 import SortingIconButton from '../ui/SortingIconButton';
+import SearchBar from '../ui/SearchBar';
 
-function ExpensesOutput({ expenses, expensesPeriod, fallbackText, onPress, sorting }) {
+function ExpensesOutput({ expenses, expensesPeriod, fallbackText, onPress, sorting, searching }) {
 
     let content = <Text style={styles.infoText}>{fallbackText}</Text>
 
@@ -12,7 +13,12 @@ function ExpensesOutput({ expenses, expensesPeriod, fallbackText, onPress, sorti
         <View style={styles.sorterContainer}>
             <SortingIconButton name={sorting ? 'sort-descending' : 'sort-ascending'} size={24} color={GlobalStyles.colors.primary100} onPress={onPress}/>
         </View>
-    )
+    );
+
+    let searcher = (
+        <SearchBar />
+    );
+
     if(expenses.length > 0) {
         content =  <ExpensesList expenses={expenses} period={expensesPeriod}/>
     }
@@ -20,7 +26,8 @@ function ExpensesOutput({ expenses, expensesPeriod, fallbackText, onPress, sorti
     return (
         <View style={styles.container}>
             <ExpensesSummary expenses={expenses} period={expensesPeriod}/>
-            {expensesPeriod === 'Total' && sorter}
+            {expensesPeriod === 'Total' && !searching && sorter}
+            {expensesPeriod === 'Total' && searching && searcher}
             {content}
         </View>
     )

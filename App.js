@@ -71,7 +71,7 @@ function BottomTabNavigation() {
         options={{
           title: "All Expenses",
           headerTitleAlign: 'center',
-          tabBarIcon: ({size, color}) => <Ionicons name="calendar-outline" size={size} color={color} />
+          tabBarIcon: ({size, color}) => <Ionicons name="calendar-outline" size={size} color={color} />,
         }}
       />
     </BottomTab.Navigator>
