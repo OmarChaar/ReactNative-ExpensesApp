@@ -21,7 +21,13 @@ const TopTab = createMaterialTopTabNavigator();
 
 function TopTabNavigation() {
   return (
-    <TopTab.Navigator>
+    <TopTab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: GlobalStyles.colors.primary500,
+        tabBarLabelStyle: {fontWeight: 'bold'},
+        tabBarIndicatorStyle: { backgroundColor: GlobalStyles.colors.primary50, height: '100%'}
+      }}
+    >
       <TopTab.Screen 
         name="WeeklyTab"
         component={RecentExpenses}
