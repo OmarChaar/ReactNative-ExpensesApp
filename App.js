@@ -44,6 +44,7 @@ function BottomTabNavigation() {
     <BottomTab.Navigator 
       // 'navigation' is found as a param in any Navigator.
       screenOptions={({navigation}) => ({
+        lazy: false,
         headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         headerTintColor: GlobalStyles.colors.white,
         tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },

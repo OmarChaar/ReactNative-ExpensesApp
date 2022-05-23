@@ -13,19 +13,21 @@ function AllExpenses() {
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState();
 
-
   /*
     To use the context app-wide, we must provide it using 'useContext()' hook.
   */
   const expensesCtx = useContext(ExpensesContext);
 
+  const [allExpenses, setAllExpenses] = useState([]);
+
   useLayoutEffect(() => {
     async function getExpenses() {
       setIsFetching(true);
       try {
+ 
         const expenses = await fetchExpenses();
         expensesCtx.setExpenses(expenses);
-        setAllExpenses(expensesCtx.expenses);
+        setAllExpenses(sortByLatest(expenses));
       }
       catch(error) {
         setError('Could not fetch expenses!');
@@ -39,7 +41,6 @@ function AllExpenses() {
 
   const [sortingUp, setSortingUp] = useState(true);
 
-  const [allExpenses, setAllExpenses] = useState([])
 
   function sortExpenses() {
     if(sortingUp) {

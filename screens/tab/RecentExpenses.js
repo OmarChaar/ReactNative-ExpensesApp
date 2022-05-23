@@ -1,5 +1,5 @@
 
-import { useContext, useLayoutEffect, useState } from 'react'
+import { useContext, useLayoutEffect, useState, useEffect } from 'react'
 import ExpensesOutput from '../../components/ExpensesOutputs/ExpensesOutput';
 import ErrorOverlay from '../../components/ui/ErrorOverlay';
 import LoadingOverlay from '../../components/ui/LoadingOverlay';
@@ -7,13 +7,13 @@ import { ExpensesContext } from '../../store/expenses-context';
 import { getDateMinusDays } from '../../util/date';
 import { fetchExpenses } from '../../util/http';
 
-function RecentExpenses({navigation}) {
+function RecentExpenses({navigation, route}) {
 
     const [isFetching, setIsFetching] = useState(true);
     const [error, setError] = useState();
 
     const expensesCtx = useContext(ExpensesContext); 
-    
+
     useLayoutEffect(() => {
         async function getExpenses() {
             setIsFetching(true);
@@ -21,6 +21,7 @@ function RecentExpenses({navigation}) {
             try {
                 const expenses = await fetchExpenses();
                 expensesCtx.setExpenses(expenses);
+                // console.log("1-trying", expenses);
             }
             catch(error) {
                 setError('Could not fetch expenses!');
@@ -30,7 +31,7 @@ function RecentExpenses({navigation}) {
         }
 
         getExpenses();
-        
+
         navigation.setOptions({
             title: 'Week',
         })

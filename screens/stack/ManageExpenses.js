@@ -1,5 +1,5 @@
 
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import { useContext, useLayoutEffect, useState } from 'react'
 import IconButton from '../../components/ui/IconButton';
 import { GlobalStyles } from '../../contants/styles';
@@ -14,6 +14,9 @@ import ErrorOverlay from '../../components/ui/ErrorOverlay';
     declared as a Navigation object in App.js.
 */
 function ManageExpenses({navigation, route}) {
+
+    const routes = navigation.getState()?.routes;
+    const previousScreen = routes[routes.length-2].name;
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
@@ -32,13 +35,31 @@ function ManageExpenses({navigation, route}) {
         We must link the values used inside it at the end.
     */
     useLayoutEffect(() => {
+
         navigation.setOptions({
             title: isEditing ? 'Edit Expenses' : 'Add Expenses',
             headerTitleAlign: 'center',
         })
     }, [navigation, isEditing]);
 
+    function deleteAlert() {
+        Alert.alert(
+            "Deleting Expense",
+            "Are you sure you want to delete this expense?",
+            [
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                },
+                { text: "OK", onPress: () => {
+                    deleteExpenseHandler();
+                } }
+            ]
+        )
+    }
     async function deleteExpenseHandler() {
+        
         setIsLoading(true);
         try {
             await deleteExpense(editExpenseID);
@@ -116,7 +137,7 @@ function ManageExpenses({navigation, route}) {
                         name="trash" 
                         color={GlobalStyles.colors.error500} 
                         size={36} 
-                        onPress={deleteExpenseHandler}
+                        onPress={deleteAlert}
                     />
                 </View>
             )}
