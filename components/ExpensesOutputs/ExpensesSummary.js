@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { borderLeftColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import { GlobalStyles } from '../../contants/styles';
+import { getFormattedPrice } from '../../util/price';
 
 function ExpensesSummary({ expenses, period }) {
 
@@ -11,7 +12,7 @@ function ExpensesSummary({ expenses, period }) {
   return (
     <View style={styles.container}>
       <Text style={styles.period}>{period}</Text>
-      <Text style={styles.sum}>${expensesSum.toFixed(2)}</Text>
+      <Text style={styles.sum}>${getFormattedPrice(expensesSum)}</Text>
     </View>
   )
 }
